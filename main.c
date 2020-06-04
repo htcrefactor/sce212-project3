@@ -27,12 +27,22 @@ typedef struct
 
 typedef struct
 {
-    int s;
-    int E;
-    int b;
+    int s; // index bits
+    int E; // way
+    int b; // block offset bits
     cset *sets;
 } cache;
 
+int index_bit(int n){
+    int cnt = 0;
+
+    while(n) {
+        cnt++;
+        n = n >> 1;
+    }
+
+    return cnt-1;
+}
 
 /***************************************************************/
 /*                                                             */
@@ -40,22 +50,35 @@ typedef struct
 /*                                                             */
 /* Purpose   : Initialize cache structure                      */
 /*                                                             */
+/* Parameters:                                                 */
+/*     int S: The set of cache                                 */
+/*     int E: The associativity way of cache                   */
+/*     int b: The blocksize of cache                           */
+/*                                                             */
 /***************************************************************/
 cache build_cache(int S, int E, int b)
 {
-
+	/* Implement this function */
 }
 
 /***************************************************************/
 /*                                                             */
 /* Procedure : access_cache                                    */
 /*                                                             */
-/* Purpose   : Update cache stat and content          */
+/* Purpose   : Update cache stat and content                   */
+/*                                                             */
+/* Parameters:                                                 */
+/*     cache *L: An accessed cache                             */
+/*     int op: Read/Write operation                            */
+/*     uint32_t addr: The address of memory access             */
+/*     int *hit: The number of cache hit                       */
+/*     int *miss: The number of cache miss                     */
+/*     int *wb: The number of write-back                       */
 /*                                                             */
 /***************************************************************/
 void access_cache(cache *L, int op, uint32_t addr, int *hit, int *miss, int *wb)
 {
-
+	/* Implement this function */
 }
 
 /***************************************************************/
@@ -104,13 +127,13 @@ void sdump(int total_reads, int total_writes, int write_backs,
 /* Procedure : xdump                                           */
 /*                                                             */
 /* Purpose   : Dump current cache state                        */
-/* 					                            		       */
-/* Cache Design						                           */
-/*  							                               */
-/* 	    cache[set][assoc][word per block]		               */
-/*                                						       */
-/*      				                        		       */
-/*       ----------------------------------------	           */
+/*                                                             */
+/* Cache Design                                                */
+/*                                                             */
+/*      cache[set][assoc][word per block]                      */
+/*                                                             */
+/*                                                             */
+/*       ----------------------------------------              */
 /*       I        I  way0  I  way1  I  way2  I                 */
 /*       ----------------------------------------              */
 /*       I        I  word0 I  word0 I  word0 I                 */
@@ -123,7 +146,7 @@ void sdump(int total_reads, int total_writes, int write_backs,
 /*       I        I  word2 I  word2 I  word2 I                 */
 /*       I        I  word3 I  word3 I  word3 I                 */
 /*       ----------------------------------------              */
-/*                              						       */
+/*                                                             */
 /*                                                             */
 /***************************************************************/
 void xdump(cache* L)
@@ -165,8 +188,6 @@ void xdump(cache* L)
     }
     printf("\n");
 }
-
-
 
 
 int main(int argc, char *argv[])
